@@ -7,6 +7,19 @@ namespace PjjDotnetWebApiCleanArch.Infrastructure.Repositories;
 
 internal class Repository<T>(AppDbContext _context) : IRepository<T> where T : class
 {
+    public int Count()
+    {
+        return _context.Set<T>()
+            .Count();
+    }
+
+    public int Count(Expression<Func<T, bool>> predicate)
+    {
+        return _context.Set<T>()
+            .Where(predicate)
+            .Count();
+    }
+
     public void Create(T entity)
     {
         _context.Set<T>().Add(entity);
@@ -34,6 +47,25 @@ internal class Repository<T>(AppDbContext _context) : IRepository<T> where T : c
         return [.. _context.Set<T>()
             .AsNoTracking()
             .Where(predicate)];
+    }
+
+    public List<T> GetAll(Expression<Func<T, bool>> predicate, Func<T, string?> orderByAsc, int skip, int take)
+    {
+        return [.. _context.Set<T>()
+            .AsNoTracking()
+            .Where(predicate)
+            .OrderBy(orderByAsc)
+            .Skip(skip)
+            .Take(take)];
+    }
+
+    public List<T> GetAll(Func<T, string?> orderByAsc, int skip, int take)
+    {
+        return [.. _context.Set<T>()
+            .AsNoTracking()
+            .OrderBy(orderByAsc)
+            .Skip(skip)
+            .Take(take)];
     }
 
     public async Task<List<T>> GetAllAsync()

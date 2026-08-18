@@ -1,23 +1,39 @@
 ﻿using AutoMapper;
 using PjjDotnetWebApiCleanArch.Application.DTOs;
+using PjjDotnetWebApiCleanArch.Application.Interfaces;
+using PjjDotnetWebApiCleanArch.Application.Interfaces.Repository;
 using PjjDotnetWebApiCleanArch.Domain.Entities;
 
 namespace PjjDotnetWebApiCleanArch.Application.Services;
 
-public class PegawaiService(AppDbContext _appDbContext,
-    IHttpContextAccessor _httpContextAccessor,
+public class PegawaiService(IPegawaiRepository _repository,
+    IUnitOfWorks _unitOfWorks,
     IMapper _mapper)
 {
     public PaginationResponse<Pegawai> GetAllPegawai(PegawaiQueryParam pegawaiQueryParam)
     {
 
-        var pegawai = _appDbContext.Pegawai.AsQueryable().IgnoreQueryFilters();
+        List<Pegawai> data;
+        int count;
+
         if(pegawaiQueryParam.Nama != null)
         {
-            pegawai = pegawai.Where(p => p.Nama.ToLower().Contains(pegawaiQueryParam.Nama.ToLower())).AsQueryable();
+            data = [.. _repository.GetAll(p => p.Nama.ToLower().Contains(pegawaiQueryParam.Nama.ToLower()),
+                p => p.Nama,
+                pegawaiQueryParam.Offset,
+                pegawaiQueryParam.Limit)];
+
+            count = _repository.Count(p => p.Nama.ToLower().Contains(pegawaiQueryParam.Nama.ToLower()));
         }
-        var count = pegawai.Count();
-        var data = pegawai.Skip(pegawaiQueryParam.Offset).Take(pegawaiQueryParam.Limit).ToList();
+        else
+        {
+            data = [.. _repository.GetAll(p => p.Nama,
+                pegawaiQueryParam.Offset,
+                pegawaiQueryParam.Limit)];
+
+            count = _repository.Count();
+        }
+
         return new PaginationResponse<Pegawai>()
         {
             Total = count,
@@ -25,48 +41,49 @@ public class PegawaiService(AppDbContext _appDbContext,
         };
     }
 
-    public Pegawai GetById(Guid id)
+    public Pegawai? GetById(Guid id)
     {
-        return _appDbContext.Pegawai.FirstOrDefault(p => p.Id == id.ToString());
+        return _repository.Get(p => p.Id == id.ToString());
     }
 
     public Pegawai CreatePegawai(PegawaiDto pegawaiParam)
     {
         var pegawai = _mapper.Map<Pegawai>(pegawaiParam);
-        _appDbContext.Add(pegawai);
-        _appDbContext.SaveChanges();
+        _repository.Create(pegawai);
+        _unitOfWorks.SaveChanges();
         return pegawai;
     }
 
     public Pegawai UpdatePegawai(Guid id, PegawaiDto pegawaiDto)
     {
-        var pegawai = _appDbContext.Pegawai.FirstOrDefault(x => x.Id.ToLower() == id.ToString().ToLower());
+        var pegawai = _repository.Get(p => p.Id == id.ToString());
         if (pegawai == null) throw new Exception("Pegawai tidak ditemukan");
         pegawai.Nama = pegawaiDto.Nama;
         pegawai.Jabatan = pegawaiDto.Jabatan;
         pegawai.NIP = pegawaiDto.NIP;
-        pegawai.TanggalMasuk = pegawaiDto.TanggalMasuk.Value;
-        pegawai.Gaji = pegawaiDto.Gaji.Value;
-        _appDbContext.SaveChanges();
+        pegawai.TanggalMasuk = pegawaiDto.TanggalMasuk.GetValueOrDefault();
+        pegawai.Gaji = pegawaiDto.Gaji.GetValueOrDefault();
+        _repository.Update(pegawai);
+        _unitOfWorks.SaveChanges();
         return pegawai;
     }
 
     public Pegawai PartialUpdatePegawai(Guid id, PegawaiDto pegawaiParam)
     {
-        var pegawai = _appDbContext.Pegawai.FirstOrDefault(x => x.Id == id.ToString());
+        var pegawai = _repository.Get(x => x.Id == id.ToString());
         if (pegawai == null) throw new Exception("Pegawai tidak ditemukan");
-        _appDbContext.Update(pegawai);
-        _appDbContext.PartialUpdate(pegawaiParam, pegawai);
-        _appDbContext.SaveChanges();
+        _repository.Update(pegawai);
+        _repository.PartialUpdatePegawai(pegawaiParam, pegawai);
+        _unitOfWorks.SaveChanges();
         return pegawai;
     }
 
     public void DeletePegawai(Guid id)
     {
-        var pegawai = _appDbContext.Pegawai.FirstOrDefault(x => x.Id == id.ToString());
+        var pegawai = _repository.Get(p => p.Id == id.ToString());
         if (pegawai == null) throw new Exception("Pegawai tidak ditemukan");
         pegawai.DeletedAt = DateTime.Now;
-        _appDbContext.Update(pegawai);
-        _appDbContext.SaveChanges();
+        _repository.Update(pegawai);
+        _unitOfWorks.SaveChanges();
     }
 }
