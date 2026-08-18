@@ -7,7 +7,7 @@ using PjjDotnetWebApiCleanArch.Domain.Entities;
 
 namespace PjjDotnetWebApiCleanArch.Application.Services;
 
-public class AsetService(IRepository<Aset> _repository, IUnitOfWorks _unitOfWorks, IMapper _mapper) : IAsetService
+public class AsetService(IAsetRepository _repository, IUnitOfWorks _unitOfWorks, IMapper _mapper) : IAsetService
 {
     public AsetDto CreateAset(AsetParamDto asetParam)
     {
@@ -35,46 +35,29 @@ public class AsetService(IRepository<Aset> _repository, IUnitOfWorks _unitOfWork
 
     public Tuple<List<AsetDto>, int> GetAllAset(AsetQueryParam queryParam)
     {
-        var asetQuery = _dbContext.Aset
-            .Include(x => x.Kategori).AsQueryable();              ;
-        if(queryParam.Kategori != null)
-        {
-            asetQuery = asetQuery.Where(x => x.Kategori.Nama.Contains(queryParam.Kategori));
-        }
-        if(queryParam.IncludeDeleted == true)
-        {
-            asetQuery = asetQuery.IgnoreQueryFilters();
-        }
-        asetQuery= asetQuery.Where(x => x.Nilai > 100000);
-        int count = asetQuery.Count();
-        var result = asetQuery.OrderBy(x => x.Nama).Skip(queryParam.Offset).Take(queryParam.Limit).ToList();
+        var (result, count) = _repository.GetAllAset(queryParam);
         return Tuple.Create(_mapper.Map<List<AsetDto>>(result), count);
     }
 
-    public List<AsetGroupByKategori> GetAsetGroupingByKategori()
+    public List<AsetDtoGroupByKategori> GetAsetGroupingByKategori()
     {
-        var aset = _dbContext.Aset.Include(x => x.Kategori).GroupBy(x => x.Kategori.Nama).Select(x => new AsetGroupByKategori()
-        {
-            KategoriName = x.Key,
-            Assets = _mapper.Map<List<AsetDto>>(x.ToList()),
-            TotalNilaiAset = x.Sum(y => y.Nilai)
-        }).ToList();
+        var aset = _repository.GetAsetGroupingByKategori();
 
-        return aset;
+        var result = _mapper.Map<List<AsetDtoGroupByKategori>>(aset);
+
+        return result;
     }
 
     public async Task<AsetDto?> GetById(Guid id)
     {
-        var aset =  await _dbContext.Aset
-            .Include(x => x.Kategori)                
-            .FirstOrDefaultAsync(x => x.Id == id);
+        var aset =  await _repository.GetByIdIncludeKategory(id);
         if (aset == null) return null;
         return _mapper.Map<AsetDto>(aset);
     }
 
     public Aset UbahPartial(Guid id, AsetParamDto asetParamDto)
     {
-        var aset = _dbContext.Aset.Find(id);
+        var aset = _repository.Get(x => x.Id == id);
         if (aset == null)
         {
             throw new Exception("Aset tidak ditemukan");
@@ -94,8 +77,8 @@ public class AsetService(IRepository<Aset> _repository, IUnitOfWorks _unitOfWork
         //        property.CurrentValue = asetParamValue;
         //    }
         //}           
-        _dbContext.PartialUpdate(asetParamDto, aset);
-        _dbContext.SaveChanges();
+        _repository.UpdatePartialAset(asetParamDto, aset);
+        _unitOfWorks.SaveChanges();
         return aset;
     }
 

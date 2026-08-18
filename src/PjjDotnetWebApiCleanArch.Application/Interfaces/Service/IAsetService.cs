@@ -10,6 +10,6 @@ public interface IAsetService
     AsetDto CreateAset(AsetParamDto asetParam);
     AsetDto UpdateAset(Guid id, AsetParamDto asetDtoParam);
     void DeleteAset(Guid id);
-    List<AsetGroupByKategori> GetAsetGroupingByKategori();
+    List<AsetDtoGroupByKategori> GetAsetGroupingByKategori();
     Aset UbahPartial(Guid id, AsetParamDto asetParamDto);
 }
