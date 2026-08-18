@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PjjDotnetWebApiCleanArch.Api/PjjDotnetWebApiCleanArch.Api.csproj" />
+    <Project Path="src/PjjDotnetWebApiCleanArch.Application/PjjDotnetWebApiCleanArch.Application.csproj" />
+    <Project Path="src/PjjDotnetWebApiCleanArch.Domain/PjjDotnetWebApiCleanArch.Domain.csproj" />
+    <Project Path="src/PjjDotnetWebApiCleanArch.Infrastructure/PjjDotnetWebApiCleanArch.Infrastructure.csproj" />
+  </Folder>
+</Solution>
