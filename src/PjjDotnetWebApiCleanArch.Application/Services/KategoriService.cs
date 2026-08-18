@@ -1,0 +1,47 @@
+﻿using AutoMapper;
+using Day1WebApi.Data;
+using Microsoft.EntityFrameworkCore;
+using PjjDotnetWebApiCleanArch.Application.DTOs;
+using PjjDotnetWebApiCleanArch.Domain.Entities;
+
+namespace PjjDotnetWebApiCleanArch.Application.Services;
+
+public class KategoriService(AppDbContext _appDbContext, IMapper _mapper)
+{
+    public List<Kategori> GetAllKategori()
+    {
+        return _appDbContext.Kategori.AsNoTracking().Where(k => k.DeletedAt == null).ToList();
+    }
+
+    public Kategori? GetKategoriById(Guid id)
+    {
+        return _appDbContext.Kategori.AsNoTracking().FirstOrDefault(x => x.Id == id);
+    }
+
+    public Kategori TambahKategori(KategoriDto kategoriParam)
+    {
+        var kategori = _mapper.Map<Kategori>(kategoriParam);
+        _appDbContext.Kategori.Add(kategori);
+        _appDbContext.SaveChanges();
+        return kategori;
+    }
+
+
+    public Kategori? UpdateKategori(Guid id, KategoriDto kategoriParam)
+    {
+        var kategori = _appDbContext.Kategori.Find(id);
+        if (kategori == null) return null;
+        kategori.Nama = kategoriParam.Nama;
+        _appDbContext.Kategori.Update(kategori);
+        _appDbContext.SaveChanges();
+        return kategori;
+    }
+
+    public void DeleteKategori(Guid id)
+    {
+        var kategori = _appDbContext.Kategori.Find(id);
+        if (kategori == null) throw new Exception("Kategori tidak ditemukan");
+        _appDbContext.Kategori.Remove(kategori);
+        _appDbContext.SaveChanges();
+    }
+}
