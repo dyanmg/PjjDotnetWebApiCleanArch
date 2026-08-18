@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PjjDotnetWebApiCleanArch.Domain.Common;
 using PjjDotnetWebApiCleanArch.Domain.Entities;
@@ -93,12 +94,10 @@ public class AppDbContext : IdentityDbContext<Pegawai>
         }
     }
 
-
     private void SavedChangesEvent(object? sender, SavedChangesEventArgs args)
     {
         Console.WriteLine("setelah data disimpan");
     }
-
 
     public void PartialUpdate<TParamEntity, TDestEntity>(TParamEntity source, TDestEntity entity)
     {

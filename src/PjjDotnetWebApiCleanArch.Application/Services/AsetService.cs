@@ -1,37 +1,36 @@
 ﻿using AutoMapper;
-using Day1WebApi.Data;
-using Day1WebApi.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using PjjDotnetWebApiCleanArch.Application.DTOs;
+using PjjDotnetWebApiCleanArch.Application.Interfaces;
+using PjjDotnetWebApiCleanArch.Application.Interfaces.Repository;
 using PjjDotnetWebApiCleanArch.Application.Interfaces.Service;
 using PjjDotnetWebApiCleanArch.Domain.Entities;
 
 namespace PjjDotnetWebApiCleanArch.Application.Services;
 
-public class AsetService(AppDbContext _dbContext, IMapper _mapper) : IAsetService
+public class AsetService(IRepository<Aset> _repository, IUnitOfWorks _unitOfWorks, IMapper _mapper) : IAsetService
 {
     public AsetDto CreateAset(AsetParamDto asetParam)
     {
         var aset = _mapper.Map<Aset>(asetParam);
-        var kategori = _dbContext.Kategori.FirstOrDefault(x => x.Id == aset.KategoriId);
+        var kategori = _repository.Get(x => x.Id == aset.KategoriId);
         if(kategori == null)
         {
             throw new Exception("Kategori tidak ditemukan");
         }
-        _dbContext.Add(aset);
-        _dbContext.SaveChanges();
+        _repository.Create(aset);
+        _unitOfWorks.SaveChanges();
         return _mapper.Map<AsetDto>(aset);
     }
 
     public void DeleteAset(Guid id)
     {
-        var aset = _dbContext.Aset.Find(id);
+        var aset = _repository.Get(x => x.Id == id);
         if(aset == null)
         {
             throw new Exception("Aset tidak ditemukan");
         }
-        _dbContext.Remove(aset);
-        _dbContext.SaveChanges();
+        _repository.Delete(aset);
+        _unitOfWorks.SaveChanges();
     }
 
     public Tuple<List<AsetDto>, int> GetAllAset(AsetQueryParam queryParam)
@@ -102,12 +101,12 @@ public class AsetService(AppDbContext _dbContext, IMapper _mapper) : IAsetServic
 
     public AsetDto UpdateAset(Guid id, AsetParamDto asetDtoParam)
     {
-        var aset = _dbContext.Aset.Find(id);
+        var aset = _repository.Get(x => x.Id == id);
         if(aset == null)
         {
             throw new Exception("Aset tidak ditemukan");
         }
-        var kategori = _dbContext.Kategori.Find(asetDtoParam.KategoriId);
+        var kategori = _repository.Get(x => x.Id == asetDtoParam.KategoriId);
 
         if (kategori == null)
         {
@@ -118,11 +117,11 @@ public class AsetService(AppDbContext _dbContext, IMapper _mapper) : IAsetServic
         aset.TanggalPerolehan = asetDtoParam.TanggalPerolehan.Value;
         aset.Nilai = asetDtoParam.Nilai.Value;
 
-        var kategoriData = _dbContext.Kategori.AsNoTracking().FirstOrDefault();
+        var kategoriData = _repository.Get(x => x.Id == asetDtoParam.KategoriId);
 
 
-        _dbContext.Update(aset);
-        _dbContext.SaveChanges();
+        _repository.Update(aset);
+        _unitOfWorks.SaveChanges();
         return _mapper.Map<AsetDto>(aset);
     }
     //1. Get All Aset

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Day1WebApi.Migrations
+namespace PjjDotnetWebApiCleanArch.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class InitMigrations : Migration

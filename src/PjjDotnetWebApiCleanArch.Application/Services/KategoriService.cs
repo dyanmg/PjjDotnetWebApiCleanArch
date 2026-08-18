@@ -1,47 +1,49 @@
 ﻿using AutoMapper;
-using Day1WebApi.Data;
-using Microsoft.EntityFrameworkCore;
 using PjjDotnetWebApiCleanArch.Application.DTOs;
+using PjjDotnetWebApiCleanArch.Application.Interfaces;
+using PjjDotnetWebApiCleanArch.Application.Interfaces.Repository;
 using PjjDotnetWebApiCleanArch.Domain.Entities;
 
 namespace PjjDotnetWebApiCleanArch.Application.Services;
 
-public class KategoriService(AppDbContext _appDbContext, IMapper _mapper)
+public class KategoriService(IRepository<Kategori> _repository,
+    IMapper _mapper,
+    IUnitOfWorks _unitOfWorks)
 {
     public List<Kategori> GetAllKategori()
     {
-        return _appDbContext.Kategori.AsNoTracking().Where(k => k.DeletedAt == null).ToList();
+        return _repository.GetAll(k => k.DeletedAt == null);
     }
 
     public Kategori? GetKategoriById(Guid id)
     {
-        return _appDbContext.Kategori.AsNoTracking().FirstOrDefault(x => x.Id == id);
+        return _repository.Get(x => x.Id == id);
     }
 
     public Kategori TambahKategori(KategoriDto kategoriParam)
     {
         var kategori = _mapper.Map<Kategori>(kategoriParam);
-        _appDbContext.Kategori.Add(kategori);
-        _appDbContext.SaveChanges();
+        _repository.Create(kategori);
+        _unitOfWorks.SaveChanges();
         return kategori;
     }
 
 
     public Kategori? UpdateKategori(Guid id, KategoriDto kategoriParam)
     {
-        var kategori = _appDbContext.Kategori.Find(id);
+        var kategori = _repository.Get(x => x.Id == id);
         if (kategori == null) return null;
         kategori.Nama = kategoriParam.Nama;
-        _appDbContext.Kategori.Update(kategori);
-        _appDbContext.SaveChanges();
+        _repository.Update(kategori);
+        _unitOfWorks.SaveChanges();
         return kategori;
     }
 
     public void DeleteKategori(Guid id)
     {
-        var kategori = _appDbContext.Kategori.Find(id);
+        var kategori = _repository.Get(x => x.Id == id);
         if (kategori == null) throw new Exception("Kategori tidak ditemukan");
-        _appDbContext.Kategori.Remove(kategori);
-        _appDbContext.SaveChanges();
+        _repository.Delete(kategori);
+        _unitOfWorks.SaveChanges();
     }
 }

@@ -8,7 +8,7 @@ using PjjDotnetWebApiCleanArch.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace Day1WebApi.Migrations
+namespace PjjDotnetWebApiCleanArch.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20260811074746_CreatePegawaiTable")]
