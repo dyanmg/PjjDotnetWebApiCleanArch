@@ -19,7 +19,7 @@ namespace PjjDotnetWebApiCleanArch.Infrastructure.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.11");
 
-            modelBuilder.Entity("Day1WebApi.Models.Aset", b =>
+            modelBuilder.Entity("PjjDotnetWebApiCleanArch.Domain.Entities.Aset", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -62,7 +62,7 @@ namespace PjjDotnetWebApiCleanArch.Infrastructure.Persistence.Migrations
                     b.ToTable("aset", (string)null);
                 });
 
-            modelBuilder.Entity("Day1WebApi.Models.Kategori", b =>
+            modelBuilder.Entity("PjjDotnetWebApiCleanArch.Domain.Entities.Kategori", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,7 +89,7 @@ namespace PjjDotnetWebApiCleanArch.Infrastructure.Persistence.Migrations
                     b.ToTable("Kategori");
                 });
 
-            modelBuilder.Entity("Day1WebApi.Models.Pegawai", b =>
+            modelBuilder.Entity("PjjDotnetWebApiCleanArch.Domain.Entities.Pegawai", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -311,7 +311,7 @@ namespace PjjDotnetWebApiCleanArch.Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Day1WebApi.Models.Aset", b =>
+            modelBuilder.Entity("PjjDotnetWebApiCleanArch.Domain.Entities.Aset", b =>
                 {
                     b.HasOne("Day1WebApi.Models.Kategori", "Kategori")
                         .WithMany("Aset")
@@ -373,7 +373,7 @@ namespace PjjDotnetWebApiCleanArch.Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Day1WebApi.Models.Kategori", b =>
+            modelBuilder.Entity("PjjDotnetWebApiCleanArch.Domain.Entities.Kategori", b =>
                 {
                     b.Navigation("Aset");
                 });

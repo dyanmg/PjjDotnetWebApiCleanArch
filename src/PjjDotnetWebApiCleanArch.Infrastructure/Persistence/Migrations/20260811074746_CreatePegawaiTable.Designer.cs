@@ -20,7 +20,7 @@ namespace PjjDotnetWebApiCleanArch.Infrastructure.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.10");
 
-            modelBuilder.Entity("Day1WebApi.Models.Aset", b =>
+            modelBuilder.Entity("PjjDotnetWebApiCleanArch.Domain.Entities.Aset", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -57,7 +57,7 @@ namespace PjjDotnetWebApiCleanArch.Infrastructure.Persistence.Migrations
                     b.ToTable("aset", (string)null);
                 });
 
-            modelBuilder.Entity("Day1WebApi.Models.Kategori", b =>
+            modelBuilder.Entity("PjjDotnetWebApiCleanArch.Domain.Entities.Kategori", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,7 +78,7 @@ namespace PjjDotnetWebApiCleanArch.Infrastructure.Persistence.Migrations
                     b.ToTable("Kategori");
                 });
 
-            modelBuilder.Entity("Day1WebApi.Models.Pegawai", b =>
+            modelBuilder.Entity("PjjDotnetWebApiCleanArch.Domain.Entities.Pegawai", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,7 +113,7 @@ namespace PjjDotnetWebApiCleanArch.Infrastructure.Persistence.Migrations
                     b.ToTable("Pegawai");
                 });
 
-            modelBuilder.Entity("Day1WebApi.Models.Aset", b =>
+            modelBuilder.Entity("PjjDotnetWebApiCleanArch.Domain.Entities.Aset", b =>
                 {
                     b.HasOne("Day1WebApi.Models.Kategori", "Kategori")
                         .WithMany("Aset")
@@ -124,7 +124,7 @@ namespace PjjDotnetWebApiCleanArch.Infrastructure.Persistence.Migrations
                     b.Navigation("Kategori");
                 });
 
-            modelBuilder.Entity("Day1WebApi.Models.Kategori", b =>
+            modelBuilder.Entity("PjjDotnetWebApiCleanArch.Domain.Entities.Kategori", b =>
                 {
                     b.Navigation("Aset");
                 });

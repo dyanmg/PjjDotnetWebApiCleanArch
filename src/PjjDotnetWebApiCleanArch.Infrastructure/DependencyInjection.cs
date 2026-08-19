@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PjjDotnetWebApiCleanArch.Application.Interfaces;
+using PjjDotnetWebApiCleanArch.Application.Interfaces.Repository;
 using PjjDotnetWebApiCleanArch.Domain.Entities;
 using PjjDotnetWebApiCleanArch.Infrastructure.Identity.ClaimsPrincipalFactory;
 using PjjDotnetWebApiCleanArch.Infrastructure.Persistence;
+using PjjDotnetWebApiCleanArch.Infrastructure.Repositories;
 
 namespace PjjDotnetWebApiCleanArch.Infrastructure;
 
@@ -18,6 +21,13 @@ public static class DependencyInjection
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddClaimsPrincipalFactory<PegawaiClaimsPrincipalFactory>();
+
+        services.AddScoped<IRepository<Pegawai>, Repository<Pegawai>>();
+        services.AddScoped<IRepository<Aset>, Repository<Aset>>();
+        services.AddScoped<IRepository<Kategori>, Repository<Kategori>>();
+        services.AddScoped<IPegawaiRepository, PegawaiRepository>();
+        services.AddScoped<IAsetRepository, AsetRepository>();
+        services.AddScoped<IUnitOfWorks, UnitOfWorks>();
             
         return services;
     } 
