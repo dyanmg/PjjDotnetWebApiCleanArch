@@ -3,8 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PjjDotnetWebApiCleanArch.Application.Interfaces;
 using PjjDotnetWebApiCleanArch.Application.Interfaces.Repository;
+using PjjDotnetWebApiCleanArch.Application.Interfaces.Service.ExternalClient;
 using PjjDotnetWebApiCleanArch.Domain.Entities;
 using PjjDotnetWebApiCleanArch.Infrastructure.Identity.ClaimsPrincipalFactory;
+using PjjDotnetWebApiCleanArch.Infrastructure.Integrations.TypiCode;
 using PjjDotnetWebApiCleanArch.Infrastructure.Persistence;
 using PjjDotnetWebApiCleanArch.Infrastructure.Repositories;
 
@@ -28,7 +30,9 @@ public static class DependencyInjection
         services.AddScoped<IPegawaiRepository, PegawaiRepository>();
         services.AddScoped<IAsetRepository, AsetRepository>();
         services.AddScoped<IUnitOfWorks, UnitOfWorks>();
-            
+        
+        services.AddHttpClient<ITypiCodeClient, TypiCodeClient>();
+
         return services;
     } 
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using PjjDotnetWebApiCleanArch.Api.ExceptionHandlers;
 using PjjDotnetWebApiCleanArch.Api.Extensions;
 using PjjDotnetWebApiCleanArch.Api.Filters;
+using PjjDotnetWebApiCleanArch.Application.Interfaces.Service.ExternalClient;
 using PjjDotnetWebApiCleanArch.Domain.Entities;
 using Serilog;
 
@@ -23,7 +24,7 @@ public static class DependencyInjection
                 || configuration["DisableGlobalAuthorize"] != "true")
             {
                 // Otorisasi global, semua endpoint akan memerlukan otorisasi
-                c.Filters.Add(new AuthorizeFilter());
+                // c.Filters.Add(new AuthorizeFilter());
             }
         });
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
