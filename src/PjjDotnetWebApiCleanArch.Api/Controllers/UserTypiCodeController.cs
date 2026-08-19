@@ -16,8 +16,20 @@ public class UserTypiCodeController(ITypiCodeClient _typiCodeClient) : Controlle
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<UserTypiCodeDto?>> GetUserById(string id)
+    public async Task<ActionResult<UserTypiCodeWithPostsDto?>> GetUserById(string id, bool includePosts = false)
     {
+        if (includePosts)
+        {
+            var userWithPosts = await _typiCodeClient.GetUserWithPostsByIdAsync(id);
+
+            if (userWithPosts == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userWithPosts);
+        }
+
         var user = await _typiCodeClient.GetUserByIdAsync(id);
 
         if (user == null)
@@ -25,6 +37,6 @@ public class UserTypiCodeController(ITypiCodeClient _typiCodeClient) : Controlle
             return NotFound();
         }
         
-        return user;
+        return Ok(user);
     }
 }

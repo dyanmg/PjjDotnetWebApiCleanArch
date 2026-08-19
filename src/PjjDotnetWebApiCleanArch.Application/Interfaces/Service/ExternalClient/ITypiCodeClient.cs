@@ -6,4 +6,5 @@ public interface ITypiCodeClient
 {
     public Task<List<UserTypiCodeDto>> GetUsersAsync();
     public Task<UserTypiCodeDto?> GetUserByIdAsync(string id);
+    public Task<UserTypiCodeWithPostsDto?> GetUserWithPostsByIdAsync(string id);
 }
