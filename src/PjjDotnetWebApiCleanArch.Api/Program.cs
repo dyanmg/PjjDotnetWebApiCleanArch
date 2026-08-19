@@ -1,23 +1,35 @@
+using PjjDotnetWebApiCleanArch.Api;
+using PjjDotnetWebApiCleanArch.Api.Extensions;
+using PjjDotnetWebApiCleanArch.Api.Middlewares;
+using PjjDotnetWebApiCleanArch.Application;
+using PjjDotnetWebApiCleanArch.Domain.Entities;
+using PjjDotnetWebApiCleanArch.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Host.AddPresentationLogging();
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddPresentation(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
 {
-    app.MapOpenApi();
+    app.AddDevAppDependency();
 }
 
-app.UseHttpsRedirection();
+app.MapGet("/health", () => Results.Ok("Healthy"));
 
 app.UseAuthorization();
+app.UseMiddleware<SampleMiddleware>();
+app.UseExceptionHandler("/error");
 
 app.MapControllers();
+app.MapIdentityApi<Pegawai>();
+
+app.UseCors("AllowAll");
 
 app.Run();

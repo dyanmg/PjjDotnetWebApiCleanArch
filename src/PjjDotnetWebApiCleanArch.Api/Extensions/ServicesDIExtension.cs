@@ -1,19 +1,9 @@
-﻿using PjjDotnetWebApiCleanArch.Application.Interfaces.Service;
-using PjjDotnetWebApiCleanArch.Application.Services;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace PjjDotnetWebApiCleanArch.Api.Extensions;
 
 public static class ServicesDIExtension
 {
-    public static IServiceCollection RegisterDIService(this IServiceCollection services)
-    {
-        services.AddScoped<KategoriService>();
-        services.AddScoped<IAsetService, AsetService>();
-        services.AddScoped<PegawaiService>();
-        return services;
-    }
-
     public static IServiceCollection RegisterSwagger(this IServiceCollection services)
     {
        return services.AddSwaggerGen(config =>
