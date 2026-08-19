@@ -17,6 +17,7 @@ public class PegawaiMapper : Profile
         CreateMap<AsetParamDto, Aset>();
 
         CreateMap<RegisterPegawaiDto, Pegawai>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id ?? Guid.NewGuid()))
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.NIP));
     }
 }

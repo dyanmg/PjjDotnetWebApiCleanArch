@@ -1,9 +1,10 @@
-# @Day1WebApi_HostAddress = http://localhost:5198
-@Day1WebApi_HostAddress = http://localhost:5000
-@AccessToken = CfDJ8CdmO7BRiEhNhpJEDHdQK8UJkmg8kn61DMFSebS2Y9xXB3MGtP5qbl_l_pxB46DT6MvuJ1s4OnSpIZrkuHsYl49Yv1ucbOd2emm09WQVQNMW9dT_N1WHG3tW5UPEfEiFCI40-QqkUhpPtwl4hp3Rihl4mtuBJb9FlMhT1FDjnlqXKnc2RoEnf-cGYw0xXYnDRmUVfXk2uUEW_C8wTFBa5wtd7o-t0nqz0zjAGfXGl66e3RZQv3NfHc3xs7i6NlivX9s55PO3R4Nz2uiK-MHG42loc_CiLQHcyYezgQBqVYUpEjqx3-PFsuqJVxSd-cddNrTerWnfP_nq69hh7_beMlOKByGwPcmxN0rDcU-56opHYx5erfpHB9aPPo0ox0gMn8NWcoIoYJmttS5h8MEb6EtsbewKV_7axSGaRISE5kGeCThYeAfulCPjO62rfoj1eNuv7onKG8DM6QlV_KIP8B8lnesmcUlFgA05DhagDp3SdRhKyt9GYwzZeQ5PETG2bUZb1AEY-Me9dX9FCfw8zFgCeWYCPtCn9AN_O9iRQBk4uLel0hfnEf1x-z_GfywqwUj6pqVKegw89h303d3wHCQw4JMW53D0s878E_Lwt31WryA5J8yGGO9hWbubd78-YKCDeKQlAl_LwmvQnBeZSVj4nh0fn9SCjotE1QNouXY37hbrAKob38XCJOVwoiStFhIycPFMtJCqueOMEyoT24gcUNbDSOzAVxIVfHxm9Ima2OS-xyKyL1l3veZrxNzAyIBGQOVl3NQVEBRi6caCZ8YcBWllJ45WLwtKn17T-3p02jpXNQf0UaYTQoVUjtbQB7rpY7cTjT1arxFV8fKU4SJOD1Lkce5weHvZj53syfepzox_-y7biQ5luDJ4kamcWnQw--nbRrozjmwXFw4QiJqOgsx0gnSEtlcNdSQyof1_
+@Day1WebApi_HostAddress = http://localhost:5075
+# @Day1WebApi_HostAddress = http://localhost:5000
+@AccessToken = CfDJ8AhvjefdrPhDu-nDFsJRfqiG_OcqNq3CJq3dNHVpzAMx1Zn1eViEnX-LFoZQznp47H3JSn5X1aGk0cJayeEqHO3_3iSxn5BTmKHNoRLhHyyLi2G-uErMiHfoVXfLeWgHxnm-N8mLCp2Z0SG8-0ORCaA0wxahb5uHscHe7IIKW29drXk8NXu_ZXsUVsXvvJTI053V2oDhTwUskv4pSoZAQ9IidN7UWTg4IJsDT2UEmBvLNHaRsYWm_tYVrvvwGFWAfsHKuwQIOm9mocQZnD9-qUWddUm7XCrD8eo73czJbsy0_gHI03Ob9wEnCdVPhGY2lROsePg0nRs1K8h4jtJItUf_Q0pvBsN7a7jtPJnHcN5CmVyOE4JJDmORctgM73ptRTLXs8hHLxLkRcJhJnt4FpNpkDSgqEDiniJ0ugwdYsazowPJjtZ4-c5JVK2X7ma5de5w_8O4bTcdm-_ev-16qdEygm2-yRK_sQHgpJ17JbUmmPObarSasIYPLH9SUc2Bv8cm3w7EUPO3wPpltoPwlH-yxHwK2oYOEBqHJmkZBRibfeQENKj74LcrVN-1aCmzHTtAkQnAdpS9BbkS4WNFAXZdSSzZm-h257eoM4Q3njrYe8Zg22DeEb1jb5CbUU5SnjZCEJ0o3sXzXVQEt-yxmwMoTLSVRznVGkKAErdCAg8hvl6-K05Wc0KgqKj-0pdCLH5czXv60ryzkUTcjFFftY3rlk2btOWH3NA9ivV7WRMKEUz0iUixKoYWqDPssfsTtQJcgjB4sL9169-Amc55uOiewtG1l8d1PEuBsy3onym9y7b3V2x-SCXomo10M5xqsg
 
 GET {{Day1WebApi_HostAddress}}/weatherforecast/
 Accept: application/json
+Authorization: Bearer {{AccessToken}}
 
 ###
 
@@ -23,7 +24,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "1236",
+  "email": "1234",
   "password": "Password123!"
 }
 
@@ -35,7 +36,7 @@ Authorization: Bearer {{AccessToken}}
 
 ####
 
-GET {{Day1WebApi_HostAddress}}/api/Pegawai/3fa85f64-5717-4562-b3fc-2c963f66afa6
+GET {{Day1WebApi_HostAddress}}/api/Pegawai/7275a355-d15e-4c0b-9d20-76738715e131
 Accept: application/json
 Authorization: Bearer {{AccessToken}}
 
