@@ -1,4 +1,4 @@
-namespace PjjDotnetWebApiCleanArch.Api;
+namespace PjjDotnetWebApiCleanArch.Domain.Entities;
 
 public class WeatherForecast
 {

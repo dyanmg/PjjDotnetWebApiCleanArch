@@ -1,0 +1,76 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PjjDotnetWebApiCleanArch.Api.Filters;
+using PjjDotnetWebApiCleanArch.Application.DTOs;
+using PjjDotnetWebApiCleanArch.Application.Services;
+
+namespace PjjDotnetWebApiCleanArch.Api.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class PegawaiController : ControllerBase
+{
+    private readonly IMapper _mapper;
+    private readonly PegawaiService _pegawaiService;
+    public PegawaiController(IMapper mapper, PegawaiService pegawaiService)
+    {
+        _mapper = mapper;
+        _pegawaiService = pegawaiService;
+    }
+
+
+    [SampleFilter]
+    [HttpGet]
+    public IActionResult GetAll([FromQuery] PegawaiQueryParam pegawaiQueryParam)
+    {
+        return Ok(_pegawaiService.GetAllPegawai(pegawaiQueryParam));
+    }
+
+    [HttpGet("{id}")]
+
+    public IActionResult GetById(Guid id)
+    {
+        var pegawai = _pegawaiService.GetById(id);
+        if (pegawai == null)
+        {
+            return NotFound();
+        }
+        var pegawaiDto = _mapper.Map<PegawaiDto>(pegawai);
+        return Ok(pegawaiDto);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public IActionResult CreatePegawai(PegawaiDto pegawaiParam)
+    {
+        var pegawai = _pegawaiService.CreatePegawai(pegawaiParam);
+
+        var pegawaiDtoResult = _mapper.Map<PegawaiDto>(pegawai);
+        return Ok(pegawaiDtoResult);
+    }
+
+    [HttpPut("{id}")]
+    public IActionResult UpdatePegawai(Guid id, PegawaiDto pegawaiParam)
+    {
+        var pegawai = _pegawaiService.UpdatePegawai(id, pegawaiParam);
+
+        var pegawaiDtoResult = _mapper.Map<PegawaiDto>(pegawai);
+        return Ok(pegawaiDtoResult);
+    }
+
+    [HttpPatch("{id}")]
+    public IActionResult PartialUpdatePegawai(Guid id, PegawaiDto pegawaiDtoParam)
+    {
+        var pegawai = _pegawaiService.PartialUpdatePegawai(id, pegawaiDtoParam);
+        return Ok(pegawai);
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize(Policy = "SupervisorOnly")]
+    public IActionResult DeletePegawai(Guid id)
+    {
+        _pegawaiService.DeletePegawai(id);
+        return Ok($"Hapus pegawai dengan nama berhasil");
+    }
+}

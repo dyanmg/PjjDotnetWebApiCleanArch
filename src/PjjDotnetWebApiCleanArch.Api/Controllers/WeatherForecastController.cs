@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PjjDotnetWebApiCleanArch.Domain.Entities;
 
 namespace PjjDotnetWebApiCleanArch.Api.Controllers;
 
