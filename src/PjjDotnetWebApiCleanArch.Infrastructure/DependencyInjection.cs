@@ -31,7 +31,10 @@ public static class DependencyInjection
         services.AddScoped<IAsetRepository, AsetRepository>();
         services.AddScoped<IUnitOfWorks, UnitOfWorks>();
         
-        services.AddHttpClient<ITypiCodeClient, TypiCodeClient>();
+        services.AddHttpClient<ITypiCodeClient, TypiCodeClient>(options =>
+        {
+            options.BaseAddress = new Uri(configuration["TypiCode:BaseUrl"] ?? "");
+        });
 
         return services;
     } 

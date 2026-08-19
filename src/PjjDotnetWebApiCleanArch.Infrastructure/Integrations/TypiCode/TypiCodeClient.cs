@@ -8,18 +8,16 @@ namespace PjjDotnetWebApiCleanArch.Infrastructure.Integrations.TypiCode;
 
 public class TypiCodeClient(HttpClient _httpClient) : ITypiCodeClient
 {
-    private const string BaseUrl = "https://jsonplaceholder.typicode.com";
-
     public async Task<UserTypiCodeDto?> GetUserByIdAsync(string id)
     {
-        var response = await _httpClient.GetFromJsonAsync<UserTypiCode>($"{BaseUrl}/users/{id}");
+        var response = await _httpClient.GetFromJsonAsync<UserTypiCode>($"users/{id}");
 
         return response?.MapToDto();
     }
 
     public async Task<List<UserTypiCodeDto>> GetUsersAsync()
     {
-        var response = await _httpClient.GetFromJsonAsync<List<UserTypiCode>>($"{BaseUrl}/users");
+        var response = await _httpClient.GetFromJsonAsync<List<UserTypiCode>>($"users");
 
         var users = response?.Select(UserTypiCodeMapper.MapToDto)?.ToList();
 
