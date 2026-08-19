@@ -1,0 +1,1 @@
+dotnet ef migrations script --project src/PjjDotnetWebApiCleanArch.Infrastructure --output ./scripts/last-migration.sql --configuration Release --startup-project src/PjjDotnetWebApiCleanArch.Api --verbose InitialMigration

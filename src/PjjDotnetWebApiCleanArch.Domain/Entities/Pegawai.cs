@@ -9,4 +9,6 @@ public class Pegawai : BaseIdentityModel
     public string? Jabatan { get; set; }
     public long Gaji { get; set; }
     public DateOnly TanggalMasuk { get; set; }
+    public string? Nik { get; set; }
+    public string? Npwp { get; set; }
 }
