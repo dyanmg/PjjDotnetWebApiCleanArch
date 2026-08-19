@@ -28,7 +28,10 @@ app.UseMiddleware<SampleMiddleware>();
 app.UseExceptionHandler("/error");
 
 app.MapControllers();
-app.MapIdentityApi<Pegawai>();
+
+app.MapGroup("/api/Account")
+    .MapIdentityApi<Pegawai>()
+    .WithTags("Account");
 
 app.UseCors("AllowAll");
 
