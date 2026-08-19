@@ -9,9 +9,9 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(DependencyInjection).Assembly);
-        services.AddScoped<KategoriService>();
+        services.AddScoped<IKategoriService,KategoriService>();
         services.AddScoped<IAsetService, AsetService>();
-        services.AddScoped<PegawaiService>();
+        services.AddScoped<IPegawaiService, PegawaiService>();
         return services;
     } 
 }

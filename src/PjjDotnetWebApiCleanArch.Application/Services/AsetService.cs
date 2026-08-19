@@ -7,7 +7,7 @@ using PjjDotnetWebApiCleanArch.Domain.Entities;
 
 namespace PjjDotnetWebApiCleanArch.Application.Services;
 
-public class AsetService(IAsetRepository _repository, IUnitOfWorks _unitOfWorks, IMapper _mapper) : IAsetService
+internal class AsetService(IAsetRepository _repository, IUnitOfWorks _unitOfWorks, IMapper _mapper) : IAsetService
 {
     public AsetDto CreateAset(AsetParamDto asetParam)
     {

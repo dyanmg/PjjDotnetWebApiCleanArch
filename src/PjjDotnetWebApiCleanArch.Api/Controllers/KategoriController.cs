@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PjjDotnetWebApiCleanArch.Application.DTOs;
-using PjjDotnetWebApiCleanArch.Application.Services;
+using PjjDotnetWebApiCleanArch.Application.Interfaces.Service;
 
 namespace PjjDotnetWebApiCleanArch.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class KategoriController(KategoriService _kategoriService) : ControllerBase
+public class KategoriController(IKategoriService _kategoriService) : ControllerBase
 {
     [HttpGet]
     public IActionResult GetAllkategori()

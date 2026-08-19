@@ -2,13 +2,14 @@
 using PjjDotnetWebApiCleanArch.Application.DTOs;
 using PjjDotnetWebApiCleanArch.Application.Interfaces;
 using PjjDotnetWebApiCleanArch.Application.Interfaces.Repository;
+using PjjDotnetWebApiCleanArch.Application.Interfaces.Service;
 using PjjDotnetWebApiCleanArch.Domain.Entities;
 
 namespace PjjDotnetWebApiCleanArch.Application.Services;
 
-public class PegawaiService(IPegawaiRepository _repository,
+internal class PegawaiService(IPegawaiRepository _repository,
     IUnitOfWorks _unitOfWorks,
-    IMapper _mapper)
+    IMapper _mapper) : IPegawaiService
 {
     public PaginationResponse<Pegawai> GetAllPegawai(PegawaiQueryParam pegawaiQueryParam)
     {

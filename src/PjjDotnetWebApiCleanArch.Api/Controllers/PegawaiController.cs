@@ -3,23 +3,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PjjDotnetWebApiCleanArch.Api.Filters;
 using PjjDotnetWebApiCleanArch.Application.DTOs;
-using PjjDotnetWebApiCleanArch.Application.Services;
+using PjjDotnetWebApiCleanArch.Application.Interfaces.Service;
 
 namespace PjjDotnetWebApiCleanArch.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PegawaiController : ControllerBase
+public class PegawaiController(IMapper _mapper,
+    IPegawaiService _pegawaiService) : ControllerBase
 {
-    private readonly IMapper _mapper;
-    private readonly PegawaiService _pegawaiService;
-    public PegawaiController(IMapper mapper, PegawaiService pegawaiService)
-    {
-        _mapper = mapper;
-        _pegawaiService = pegawaiService;
-    }
-
-
     [SampleFilter]
     [HttpGet]
     public IActionResult GetAll([FromQuery] PegawaiQueryParam pegawaiQueryParam)

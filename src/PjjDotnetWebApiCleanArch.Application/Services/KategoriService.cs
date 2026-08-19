@@ -2,13 +2,14 @@
 using PjjDotnetWebApiCleanArch.Application.DTOs;
 using PjjDotnetWebApiCleanArch.Application.Interfaces;
 using PjjDotnetWebApiCleanArch.Application.Interfaces.Repository;
+using PjjDotnetWebApiCleanArch.Application.Interfaces.Service;
 using PjjDotnetWebApiCleanArch.Domain.Entities;
 
 namespace PjjDotnetWebApiCleanArch.Application.Services;
 
-public class KategoriService(IRepository<Kategori> _repository,
+internal class KategoriService(IRepository<Kategori> _repository,
     IMapper _mapper,
-    IUnitOfWorks _unitOfWorks)
+    IUnitOfWorks _unitOfWorks) : IKategoriService
 {
     public List<Kategori> GetAllKategori()
     {
